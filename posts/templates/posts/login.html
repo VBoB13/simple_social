@@ -1,0 +1,23 @@
+{% extends 'posts/base.html' %}
+
+{% block content_block %}
+    <div class="jumbotron bg-secondary">
+        <p class="text-justify">
+        <h1 class="display-4">Login</h1>
+        </p>
+        <form action="{% url 'posts:login' %}" method="POST" class="form">
+            {% csrf_token %}
+            <p>
+            <label for="username">Username:</label>
+            <input type="text" name="username" placeholder="Enter Username" class="form-control">
+            </p>
+
+            <p>
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password..." class="form-control">
+            </p>
+
+            <p><input type="submit" name="" value="Login" class="btn btn-primary"></p>
+        </form>
+    </div>
+{% endblock content_block %}

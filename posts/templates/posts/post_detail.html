@@ -1,0 +1,46 @@
+{% extends 'posts/base.html' %}
+{% load bootstrap4 %}
+{% load tz %}
+
+{% block view_title_block %}
+    <div class="jumbotron bg-secondary">
+        <h1 align="center" class="display-4">
+            {{ view_title }}
+        </h1>
+    </div>
+{% endblock view_title_block %}
+
+{% block content_block %}
+    <div class="row">
+        <div class="col-4">
+            <h3><u>Info:</u></h3>
+            <ul>
+                <li><strong>OP: </strong> {{ object.user }}</li>
+                <li><strong>Posted: </strong>{{ object.timestamp }}</li>
+                <li><strong>Edited: </strong>{{ object.edited_timestamp }}</li>
+            </ul>
+        </div>
+        <div class="col-8">
+            <h2>Post:</h2>
+            <p class="text-justify">
+                {{ object.content }}
+            </p>
+            <br>
+            <h3>Comments:</h3><br>
+            {% for comment in comments %}
+                <p>{{ comment.content }}</p>
+                <p class="text-muted"><i>{{ comment }} - {% localtime on %}{{ comment.timestamp|date }}, {{ comment.timestamp|time }}{% endlocaltime %}</i></p>
+                <hr class="bg-secondary">
+            {% empty %}
+                <p class="text-justify text-muted">No comments yet...</p>
+            {% endfor %}
+            
+            <br><h4><u>Leave a comment</u></h4>
+            <form action="{% url 'posts:comment_create' object.pk %}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form comment_form %}
+                <input type="submit" value="Comment" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+{% endblock content_block %}
